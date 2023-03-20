@@ -1,21 +1,17 @@
 import React from "react";
 import CardWrapper from "../../common/Card";
 
-const withFunctions = (SimpleComponent) => (name) => {
-    const isAuth = localStorage.getItem("auth");
+const withFunctions = (SimpleComponent) => (props) => {
+    const isAuth = !!localStorage.getItem("auth");
     const onLogin = () => {
-        localStorage.push("auth");
+        localStorage.setItem("auth", "token");
     };
     const onLogOut = () => {
         localStorage.removeItem("auth");
     };
     return (
         <CardWrapper>
-            {isAuth ? (
-                <SimpleComponent {...onLogOut} />
-            ) : (
-                <SimpleComponent {...onLogin} />
-            )}
+                <SimpleComponent onLogOut={onLogOut} isAuth={isAuth} onLogin={onLogin} {...props} />
         </CardWrapper>
     );
 };
